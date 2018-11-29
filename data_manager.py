@@ -90,8 +90,8 @@ class DataManagerConvolution():
         print('Data saved to img_data.npy')
 
     def load_from_file(self):
-        self.img_data = np.load('/content/drive/My Drive/powerline_detector/img_data.npy')
-        self.img_0_data = np.load('/content/drive/My Drive/powerline_detector/img_0_data.npy')
+        self.img_data = np.load('img_data.npy')
+        self.img_0_data = np.load('img_0_data.npy')
 
         true_label = np.float32([[1.0, 0.0]])
         true_label = np.repeat(true_label, self.img_data.shape[0], axis=0)

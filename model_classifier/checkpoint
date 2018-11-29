@@ -1,2 +1,2 @@
-model_checkpoint_path: "/content/drive/My Drive/powerline_detector/model/classifier_model"
-all_model_checkpoint_paths: "/content/drive/My Drive/powerline_detector/model/classifier_model"
+model_checkpoint_path: "classifier_model"
+all_model_checkpoint_paths: "classifier_model"
