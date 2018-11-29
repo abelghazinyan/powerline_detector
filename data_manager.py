@@ -90,8 +90,8 @@ class DataManagerConvolution():
         print('Data saved to img_data.npy')
 
     def load_from_file(self):
-        self.img_data = np.load('img_data.npy')
-        self.img_0_data = np.load('img_0_data.npy')
+        self.img_data = np.load('/content/drive/My Drive/powerline_detector/img_data.npy')
+        self.img_0_data = np.load('/content/drive/My Drive/powerline_detector/img_0_data.npy')
 
         true_label = np.float32([[1.0, 0.0]])
         true_label = np.repeat(true_label, self.img_data.shape[0], axis=0)
@@ -118,5 +118,5 @@ class DataManagerConvolution():
     def next_batch(self, batch_size):
         x = self.X_train[self.i:self.i + batch_size].reshape(batch_size,40,40,3)
         y = self.y_train[self.i:self.i + batch_size]
-        self.i = (self.i + batch_size) % len(self.X_train)
+        self.i = (self.i + batch_size) % (int(len(self.X_train ) / batch_size) * batch_size)
         return x, y
