@@ -89,4 +89,3 @@ while(1):
 
 
             cv.line(imgLine,(x1,y1),(x2,y2),(0,0,255),4)
-    cv.imwrite('detected.png', imgLine)
