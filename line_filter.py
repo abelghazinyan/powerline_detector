@@ -1,15 +1,14 @@
 import cv2 as cv
-import math
 import numpy as np
 import matplotlib.pyplot as plt
 from skimage.filters import gabor_kernel
-from scipy import ndimage as ndi
+
 
 def nothing(x):
     pass
 
-# kernel3 = np.real(gabor_kernel(1/18, theta=np.deg2rad(20), sigma_x=3.5, sigma_y=3.5))
-
+# kernel3 = np.real(gabor_kernel(1/6, theta=np.deg2rad(28), sigma_x=5, sigma_y=5, n_stds=5))
+#
 # plt.imshow(kernel3, cmap='gray')
 # plt.show()
 
@@ -38,12 +37,12 @@ dilated = np.zeros_like(img)
 imgLine = np.copy(img)
 
 while(1):
-    # cv.imshow('fimg',fimg)
+    cv.imshow('fimg',fimg)
 
     cv.imshow('tresh', dilated)
 
     cv.imshow('lines', imgLine)
-    # cv.imshow('kern', kern)
+
     k = cv.waitKey(1) & 0xFF
     if k == 27:
         break
@@ -54,7 +53,8 @@ while(1):
     theta = cv.getTrackbarPos('Theta','image')
     f = cv.getTrackbarPos('f','image')
 
-    kern = np.real(gabor_kernel(1/f, theta=np.deg2rad(theta), sigma_x=sigma/10, sigma_y=sigma/10, n_stds=ksize))
+    if f > 0:
+        kern = np.real(gabor_kernel(1/f, theta=np.deg2rad(theta), sigma_x=sigma/10, sigma_y=sigma/10, n_stds=ksize))
     # plt.imshow(kern, cmap='gray')
     # kern = kern[:,:,None]
 
@@ -76,16 +76,17 @@ while(1):
     #         cv.line(imgLine, (x1, y1), (x2, y2), (0, 0, 255), 3)
     lines = cv.HoughLines(dilated, rho=1, theta=np.pi/45, threshold=250)
     imgLine = np.copy(img)
-    for line in lines:
-        for rho,theta in line:
-            a = np.cos(theta)
-            b = np.sin(theta)
-            x0 = a*rho
-            y0 = b*rho
-            x1 = int(x0 + 1000*(-b))
-            y1 = int(y0 + 1000*(a))
-            x2 = int(x0 - 1000*(-b))
-            y2 = int(y0 - 1000*(a))
+    if lines is not None:
+        for line in lines:
+            for rho,theta in line:
+                a = np.cos(theta)
+                b = np.sin(theta)
+                x0 = a*rho
+                y0 = b*rho
+                x1 = int(x0 + 1000*(-b))
+                y1 = int(y0 + 1000*(a))
+                x2 = int(x0 - 1000*(-b))
+                y2 = int(y0 - 1000*(a))
 
 
-            cv.line(imgLine,(x1,y1),(x2,y2),(0,0,255),4)
+                cv.line(imgLine,(x1,y1),(x2,y2),(0,0,255),4)
